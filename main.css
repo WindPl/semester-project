@@ -1,0 +1,68 @@
+body, html {
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#main-1 > h2 {
+    text-align: center;
+}
+
+#main-2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100vh;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-2 > * {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered {
+    margin: 1.5rem auto;
+    width: fit-content;
+    display: block;
+}
+
+#apply {
+    font-size: large;
+    padding: 0.5rem;
+}
+
+#error-message {
+    background-color: rgb(255, 161, 161);
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: 700;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+
+
+
+/* dialog {
+    width: max-content;
+    display: block;
+}
+
+dialog summary {
+    padding: 0.5rem 1rem;
+    width: max-content;
+    display: inline list-item; 
+} 
+*/

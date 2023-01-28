@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./main.css">
+    <script src="./cdn.js"></script>
+  </head>
+  <body>
+    <div id="main-1">
+      <h2>Будь ласка, перевірте параметри ініціалізації:</h2>
+      <fieldset  class="centered">
+          <legend>Кількість клітин</legend>
+          <input
+          type="number"
+          id="cell-number-w"
+          label="За шириною:"
+          min="4"
+          max="5000"
+          save/> <br>
+
+          <input
+          type="number"
+          id="cell-number-h"
+          label="За висотою:"
+          min="4"
+          max="5000"
+          save/> <br>
+          
+          <!-- <div class="break"></div> -->
+          <!-- <div id="cn-link-container" class="link-container"> -->
+          <input type="checkbox" id="cell-number-link" label="Зберігати пропорцію:" save connect="cell-number-h cell-number-w"/>
+              <!-- <label for="cn-link"> -->
+                  <!-- <img src="./svgs/appbar.link.svg" alt="" />
+              </label>
+          </div> -->
+      </fieldset >
+      <fieldset class="centered">
+        <legend>Розмір клітини, у нанометрах</legend>
+        <input
+          type="number"
+          id="cell-size-w"
+          label="За шириною:"
+          min="5"
+          max="2000"
+          save
+          reduce="1000000000"
+          /> <br>
+
+        <input
+          type="number"
+          id="cell-size-h"
+          label="За висотою:"
+          min="5"
+          max="2000"
+          reduce="1000000000"
+          save/> <br>
+
+        <!-- <div class="break"></div> -->
+
+        <input type="checkbox" id="cell-size-link" save label="Зберігати пропорцію:" connect="cell-size-h cell-size-w"/>
+        <!-- <label for="cell-size-link">
+          <img src="./svgs/appbar.link.svg" alt="" />
+        </label> -->
+      </fieldset>
+      <fieldset class="centered">
+        <legend>Розмір загального простору, у нанометрах</legend>
+        <output
+          type="number"
+          id="sim-size-w"
+          label="За шириною:"
+          disabled
+          for="cell-size-w cell-number-w"
+          save> </output> <br>
+
+        <output
+          type="number"
+          id="sim-size-h"
+          label="За висотою:"
+          disabled
+          for="cell-size-h cell-number-h"
+          save> </output>  <br>
+      </fieldset>
+      <fieldset class="centered">
+        <legend>Крок симуляції, у фемтосекундах (10<sup>-15</sup> с):</legend>
+        <input type="number" id="sim-time-delta" label="" save reduce="1000000000000000"/>
+      </fieldset>
+      <fieldset class="centered">
+        <legend>Початкова</legend>
+        <select id="scene-mode" label="Оберіть сцену:" save>
+          <option value="0">Плоска хвиля</option>
+          <option value="1">Сферична хвиля</option>
+          <option value="2">Одна щілина в бар'єрі</option>
+          <option value="3">Дві щілини (експеримент Юнга)</option>
+          <option value="4">Краплина дощу</option>
+          <option value="5">Кільця Ньютона</option>
+        </select>
+        <fieldset id="sim-0-container">
+            <legend>Параметри плоскої хвилі</legend>
+            <input type="number" id="sim-0-0" label="Довжина хвилі:" save reduce="1000000000"/>
+        </fieldset>
+        <fieldset id="sim-1-container">
+            <legend>Параметри сферичної хвилі</legend>
+            <input type="number" id="sim-1-0" label="Довжина хвилі:" save reduce="1000000000"/>
+        </fieldset>
+        <fieldset id="sim-2-container">
+            <legend>Параметри експерименту з однією щілиною в бар'єрі</legend>
+            <input type="number" id="sim-2-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-2-1" label="Ширина щілини, нм:" save reduce="1000000000"/> <br>
+            <input type="number" id="sim-2-2" label="Відстань від лівого краю, нм:" save reduce="1000000000"/>
+        </fieldset>
+        <fieldset id="sim-3-container">
+            <legend>Параметри експерименту Юнга</legend>
+            <input type="number" id="sim-3-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-3-1" label="Ширина кожної щілини:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-3-2" label="Відстань між серединами щілин:" save reduce="1000000000"/> <br>
+            <input type="number" id="sim-3-3" label="Відстань від лівого краю, нм:" save reduce="1000000000"/>
+        </fieldset>
+        <fieldset id="sim-4-container">
+            <legend>Параметри експерименту з краплиною дощу</legend>
+            <input type="number" id="sim-4-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-4-1" label="Радіус краплини:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-4-2" label="Показник заломлення краплини:" save>
+        </fieldset>
+        <fieldset id="sim-5-container">
+            <legend>Параметри експерименту кілець Ньютона</legend>
+            <input type="number" id="sim-5-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-5-1" label="Радіус лінзи:" save reduce="1000000000"/> <br>
+
+            <input type="number" id="sim-5-2" label="Зсув відносно центру вправо:" save reduce="1000000000"> <br>
+
+            <input type="number" id="sim-5-4" label="Радіус зрізу лінзи:" save reduce="1000000000"> <br>
+
+            <input type="number" id="sim-5-3" label="Показник заломлення скла" save>
+        </fieldset>
+        <!-- <input type="number" id="sim-5-2" /> -->
+      </fieldset>
+
+      <button id="apply" class="centered" save>Далі</button>
+      <p id="error-message" class="centered hidden">Ви не ввели усі значення.</p>
+    </div>
+    <div id="main-2" class="hidden">
+      <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+      </div>
+      <div id="realtime-params">
+        <fieldset class="centered">
+          <input type="range" id="intensity" min="0.01" max="5" step="0.0001" label="Гама вікна:" save /> <br>
+        
+          <select id="display-mode" label="Режим показу:" save>
+            <option value="0">Інтенсивність + показник заломлення</option>
+            <option value="1">Інтенсивність</option>
+            <option value="2">Показник заломлення</option>
+            <option value="3">Дійсна частина амплітуди</option>
+            <option value="4">Квадрат дійсної частини амплітуди</option>
+            <option value="5">Уявна частина амплітуди</option>
+          </select>
+        </fieldset>
+        
+        <fieldset class="centered">
+          <input
+            type="checkbox"
+            id="enable-recording"
+            label="Ввімкнути запис:"
+            save
+          /> <br>
+        
+          <input type="number" id="fps" label="Кількість кадрів у секунду (якщо запис вимкнено):" save/> <br>
+          <input type="number" id="recording-time-delta" label="Час між кадрами запису (у фс, якщо запис ввімкнено):" save reduce="1000000000000000"/>
+        </fieldset>
+
+        <fieldset class="centered">
+          <button id="start-button" save>Почати</button>
+          <button id="stop-button" save>Зупинити</button>
+        </fieldset>
+
+      </div>
+    </div>
+    <!-- <portal id="exampleportal" src="https://example.com/"></portal> -->
+    <a href="" id="downloader" class="hidden"></a>
+  </body>
+</html>
+
+<script src="./main.js"></script>
