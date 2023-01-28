@@ -295,9 +295,12 @@ function initPage2() {
                 }
             } else if (params.sceneMode === 5) {
                 if(
-                    (i*params.cellSizeH-params.sim_5_1)**2 + (j*params.cellSizeW-params.cellNumberW/2*params.cellSizeW-params.sim_5_2)**2 <= params.sim_5_1**2
+                    (i*params.cellSizeH-params.sim_5_1-params.sim_5_5)**2 + (j*params.cellSizeW-params.cellNumberW/2*params.cellSizeW-params.sim_5_2)**2 <= params.sim_5_1**2
                 &&  (params.sim_5_1-i*params.cellSizeH)>=params.sim_5_4
                 ) {
+                    return params.sim_5_3;
+                }
+                if(i*params.cellSizeH<=params.sim_5_5) {
                     return params.sim_5_3;
                 }
             }
@@ -332,7 +335,7 @@ function initPage2() {
             if(params.sceneMode===0)
                 return params.sim_0_0/params.lightspeed*10;
             if(params.sceneMode===5) {
-                return params.sim_0_0/params.lightspeed*20;
+                return params.sim_0_0/params.lightspeed*40;
             }
             return 0;
         }
