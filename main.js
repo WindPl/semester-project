@@ -248,6 +248,12 @@ function initPage2() {
     }
         
     {
+        let helpers = {
+            height_6: (i) => Math.abs(i-params.cellNumberH/2),
+            height_mul_6: (wavelen) => Math.min(wavelen/params.cellSizeH*10,params.cellNumberH/3),
+            j_right_boundary_6: 30,
+            generator: (amp,ph,wavelength,refr,isIm) => amp*Math.cos(params.simTime/(wavelength/params.lightspeed*refr)+ph-(+isIm*Math.PI/2))  
+        };
         for(let i = 0; i < params.cellNumberH; i++) {
             UArr[0][i] = [];
             UArr[1][i] = [];
@@ -259,16 +265,43 @@ function initPage2() {
             UArr[7][i] = [];
             UArr[8][i] = [];
             for(let j = 0; j < params.cellNumberW; j++) {
-                UArr[0][i][j] = 0;
-                UArr[1][i][j] = 0;
-                UArr[2][i][j] = 0;
-                UArr[3][i][j] = 0;
                 UArr[4][i][j] = generateRefrIndicies(i,j);
                 UArr[5][i][j] = generateGenWavelength(i,j);
                 UArr[6][i][j] = generateGenAmps(i,j);
                 UArr[7][i][j] = generateGenPhases(i,j);
                 UArr[8][i][j] = generatorTime(i,j);
+
+                UArr[0][i][j] = generatePrev(0,i,j);
+                UArr[1][i][j] = generateCur(0,i,j);
+                UArr[2][i][j] = generatePrev(1,i,j);
+                UArr[3][i][j] = generateCur(1,i,j);
             }
+        }
+
+        function generatePrev(im,i,j) {
+            // if((params.sceneMode===6||params.sceneMode===7)&&j>0&&j<=helpers.j_right_boundary_6&&helpers.height_6(i)<1/helpers.height_mul_6) {
+            //     let wavelength = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+            //     let refr = 1
+            //     let bound_dif = params.lightspeed*params.simTimeDelta/params.cellSizeW;
+            //     let right_bound =  helpers.j_right_boundary_6 - bound_dif;
+            //     let x = right_bound-j;
+            //     if(x>0)
+            //         return helpers.generator(1,x/wavelength*2*Math.PI,wavelength,refr,im);
+            // }
+            return 0;
+        }
+
+        function generateCur(im,i,j) {
+            // if((params.sceneMode===6||params.sceneMode===7)&&j>0&&j<=helpers.j_right_boundary_6&&helpers.height_6(i)<1/helpers.height_mul_6) {
+            //     let wavelength = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+            //     let refr = 1
+            //     let bound_dif = params.lightspeed*params.simTimeDelta/params.cellSizeW;
+            //     let right_bound =  helpers.j_right_boundary_6;
+            //     let x = right_bound-j;
+            //     if(x>0)
+            //         return helpers.generator(1,x/wavelength*2*Math.PI,wavelength,refr,im);
+            // }
+            return 0;
         }
 
         function generateRefrIndicies(i,j) {
@@ -303,6 +336,18 @@ function initPage2() {
                 if(i*params.cellSizeH<=params.sim_5_5) {
                     return params.sim_5_3;
                 }
+            } else if ((params.sceneMode === 6 || params.sceneMode === 7)||(j>4)) {
+                let wavelength = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+                let angle = params.sceneMode===6?params.sim_6_1:params.sim_7_1;
+                let refr = params.sceneMode===6?Infinity:params.sim_7_2;
+                let k = 1/Math.tan(angle/180*Math.PI);
+                let y = (j-params.cellNumberW/2)*k + params.cellNumberH/2+0.0000004;
+                if(i<y) {
+                    return refr;
+                } else if(i-2<y) {
+                    // return (y-i)/2*refr;
+                }
+
             }
             return 1;
         }
@@ -321,6 +366,16 @@ function initPage2() {
             if(params.sceneMode===5 && i===params.cellNumberH-2) {
                 return 1;
             }
+
+            if(params.sceneMode===6&&j>0&&j<=1&&helpers.height_6(i)<helpers.height_mul_6(params.sim_6_0)) {
+                // let nn = 1-10*Math.abs(i/params.cellNumberH-1/2);
+                // nn = nn**4;
+                // if(nn>1) nn=1;
+                return 1;
+            }
+            if(params.sceneMode===7&&j>0&&j<=1&&helpers.height_6(i)<helpers.height_mul_6(params.sim_7_0)) {
+                return 1;
+            }
             // if(params.sceneMode===4 && j === 1 && i <= params.cellNumberH/2) {
             //     return 1;
             // }
@@ -328,6 +383,15 @@ function initPage2() {
         }
 
         function generateGenPhases(i,j) {
+            // if((params.sceneMode===6||params.sceneMode===7)&&j===1) {
+            //     // let wave = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+            //     // return (j-1)*params.simSizeW/wave*Math.PI*2;
+            //     let wavelength = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+            //     let right_bound =  helpers.j_right_boundary_6;
+            //     let x = right_bound-j;
+            //     if(x>0)
+            //         return x/wavelength*2*Math.PI;
+            // }
             return 0;
         }
 
@@ -335,7 +399,11 @@ function initPage2() {
             if(params.sceneMode===0)
                 return params.sim_0_0/params.lightspeed*10;
             if(params.sceneMode===5) {
-                return params.sim_0_0/params.lightspeed*40;
+                return params.sim_5_0/params.lightspeed*40;
+            }
+            if(params.sceneMode===6||params.sceneMode===7) {
+                let wavelength = params.sceneMode===6?params.sim_6_0:params.sim_7_0;
+                return wavelength/params.lightspeed*10;
             }
             return 0;
         }
@@ -380,9 +448,10 @@ function initPage2() {
             let phase = z==3?-Math.PI/2:0;
         
             if(genTime!==0 && frametime>genTime) {
-                let nnx = (genWavelen/lightspeed*refrIndex*2-frametime+genTime);
-                if(nnx<0) nnx=0
-                genAmp = genAmp * nnx;
+                // let nnx = (genWavelen/lightspeed*refrIndex*15-frametime+genTime);
+                // if(nnx<0) nnx=0
+                // genAmp = genAmp * nnx;
+                genAmp = 0;
             }
         
             
@@ -494,7 +563,16 @@ function initPage2() {
                     draw(UArr,params.intensity,params.displayMode);
                     let s=`${params.recordingNum}`;
                     while(s.length<4) s = "0"+s;
-                    elements.downloader.setAttribute('download', `sh-${s}.png`);
+
+                    let sceneName = document.querySelector(`#scene-mode > option[value='${params.sceneMode}']`).innerText;
+                    let simW = params.cellSizeW*params.cellNumberW;
+                    simW = Math.round(simW*1000000000);
+                    let simH = params.cellSizeH*params.cellNumberH;
+                    simH = Math.round(simH*1000000000);
+
+                    elements.downloader.setAttribute('download', 
+                    `${sceneName}-${simW}x${simH}-${params.cellSizeW*1000000000}x${params.cellSizeH*1000000000}-${params.simTimeDelta*1000000000000000}-${s}.png`
+                    );
                     elements.downloader.setAttribute('href', elements.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
                     elements.downloader.click();
                     params.recordingNum++;
@@ -514,10 +592,12 @@ function initPage2() {
 
     {
         elements.intensity.oninput = _ => {
+            if(!params.isStarted)drawIfNeeded("draw");
             params.intensity=+elements.intensity.value;
             window.localStorage.setItem('inensity',params.intensity);
         }
         elements.displayMode.onchange = _ => {
+            drawIfNeeded("draw");
             params.displayMode=+elements.displayMode.value;
             window.localStorage.setItem('displayMode',params.displayMode);
         }

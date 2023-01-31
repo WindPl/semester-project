@@ -92,6 +92,8 @@
         <select id="scene-mode" label="Оберіть сцену:" save>
           <option value="0">Плоска хвиля</option>
           <option value="1">Сферична хвиля</option>
+          <option value="6">Відбиття плоскої хвилі</option>
+          <option value="7">Заломлення плоскої хвилі</option>
           <option value="2">Одна щілина в бар'єрі</option>
           <option value="3">Дві щілини (експеримент Юнга)</option>
           <option value="4">Краплина дощу</option>
@@ -104,6 +106,20 @@
         <fieldset id="sim-1-container">
             <legend>Параметри сферичної хвилі</legend>
             <input type="number" id="sim-1-0" label="Довжина хвилі:" save reduce="1000000000"/>
+        </fieldset>
+        <fieldset id="sim-6-container">
+          <legend>Параметри відбиття світла</legend>
+          <input type="number" id="sim-6-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+          <input type="number" id="sim-6-1" label="Кут падіння:" save/> <br>
+        </fieldset>
+        <fieldset id="sim-7-container">
+          <legend>Параметри відбиття світла</legend>
+          <input type="number" id="sim-7-0" label="Довжина хвилі:" save reduce="1000000000"/> <br>
+
+          <input type="number" id="sim-7-1" label="Кут падіння:" save/> <br>
+
+          <input type="number" id="sim-7-2" label="Показник заломлення:" save/>
         </fieldset>
         <fieldset id="sim-2-container">
             <legend>Параметри експерименту з однією щілиною в бар'єрі</legend>
@@ -157,7 +173,7 @@
         <fieldset class="centered">
           <input type="range" id="intensity" min="0.01" max="5" step="0.0001" label="Гама вікна:" save /> <br>
         
-          <select id="display-mode" label="Режим показу:" save>
+          <select id="display-mode" label="Режим показу:" save onkeyup="this.onchange();" onmouseup="this.onchange()">
             <option value="0">Інтенсивність + показник заломлення</option>
             <option value="1">Інтенсивність</option>
             <option value="2">Показник заломлення</option>
