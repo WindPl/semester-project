@@ -20,16 +20,16 @@ const params = {
     fps: 10,
     realTime: 0,
     recordingNum: 0,
-    recordingTimeDelta: 1,
-    simTimeDelta: 1,
+    recordingTimeDelta: 0.000000000000002,
+    simTimeDelta: 0.0000000000000001,
     simTime: 0,
     isStarted: false,
     
     cellNumberW: 300,
     cellNumberH: 300,
     cellNumberLink: true,
-    cellSizeW: 10,
-    cellSizeH: 10,
+    cellSizeW: 50*0.000000001,
+    cellSizeH: 50*0.000000001,
     cellSizeLink: true,
 
     simSizeW: null,
@@ -108,7 +108,7 @@ const elements = {
                 return params[`___${kebabed}_value`];
             }
         });
-        elem.value = +elem.value * (+elem.getAttribute("reduce"));
+        elem.value = Math.round(+elem.value * (+elem.getAttribute("reduce"))*100000)/100000;
     }
 
     var elemArr = document.querySelectorAll("*[connect]");
