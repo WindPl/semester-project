@@ -7,7 +7,7 @@ let UArr = [
     [],
     [],
     [],
-    [],
+    // [],
     [],
     []
 ]; // prev real, cur real, prev im, cur im, refractive index, generator wavelength, generator amp, generator phase, generator time
@@ -263,13 +263,13 @@ function initPage2() {
             UArr[5][i] = [];
             UArr[6][i] = [];
             UArr[7][i] = [];
-            UArr[8][i] = [];
+            // UArr[8][i] = [];
             for(let j = 0; j < params.cellNumberW; j++) {
                 UArr[4][i][j] = generateRefrIndicies(i,j);
                 UArr[5][i][j] = generateGenWavelength(i,j);
                 UArr[6][i][j] = generateGenAmps(i,j);
-                UArr[7][i][j] = generateGenPhases(i,j);
-                UArr[8][i][j] = generatorTime(i,j);
+                // UArr[7][i][j] = generateGenPhases(i,j);
+                UArr[7][i][j] = generatorTime(i,j);
 
                 UArr[0][i][j] = generatePrev(0,i,j);
                 UArr[1][i][j] = generateCur(0,i,j);
@@ -308,16 +308,18 @@ function initPage2() {
             if (params.sceneMode === 0 || params.sceneMode === 1) {
                 return 1;
             } else if (params.sceneMode === 2) {
-                if(params.sim_2_2>=j*params.cellSizeW&&params.sim_2_2<=(j+1)*params.cellSizeW) {
+                let k = Math.ceil(params.sim_2_0 / params.cellSizeW * 12);
+		if(j*params.cellSizeW >= params.sim_2_2 && j*params.cellSizeW <= params.sim_2_2 + k*params.cellSizeW) {
                     if(params.sim_2_1/2>=Math.abs(i-params.cellNumberH/2)*params.cellSizeH) {
                         return 1;
                     }
                     return Infinity;
                 }
             } else if (params.sceneMode === 3) {
-                if(params.sim_3_3>=j*params.cellSizeW&&params.sim_3_3<=(j+1)*params.cellSizeW) {
-                    if(Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH-params.sim_3_2)<=params.sim_3_1
-                    || Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH+params.sim_3_2)<=params.sim_3_1) {
+                let k = Math.ceil(params.sim_3_0 / params.cellSizeW * 12);
+		if(j*params.cellSizeW >= params.sim_3_3 && j*params.cellSizeW <= params.sim_3_3 + k*params.cellSizeW) {
+                    if(Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH-params.sim_3_2/2)<=params.sim_3_1/2
+                    || Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH+params.sim_3_2/2)<=params.sim_3_1/2) {
                             return 1;
                         }
                     return Infinity;
@@ -442,8 +444,8 @@ function initPage2() {
             let refrIndex = UArr[4][y][x];
             let genWavelen = UArr[5][y][x];
             let genAmp = UArr[6][y][x];
-            let genPh = UArr[7][y][x];
-            let genTime = UArr[8][y][x];
+            // let genPh = UArr[7][y][x];
+            let genTime = UArr[7][y][x];
 
             let phase = z==3?-Math.PI/2:0;
         
@@ -460,10 +462,10 @@ function initPage2() {
 
             
             if(genAmp!==0)
-                return genAmp*Math.cos(frametime/(genWavelen/lightspeed*refrIndex)+genPh+phase);            
+                return genAmp*Math.cos(frametime/(genWavelen/lightspeed*refrIndex)+phase);            
 
             return (lightspeed**2*timestep**2/(refrIndex**2)) * (difHorizontal/(cellSizeW**2) + difVertical/(cellSizeH**2)) + 2*U - UPrev;
-        }).setOutput([params.cellNumberW,params.cellNumberH,9]).setTactic('precision');
+        }).setOutput([params.cellNumberW,params.cellNumberH,8]).setTactic('precision');
 
         draw = gpu.createKernel(function(UArr,intensity,mode) {
             let rpuc = UArr[0][this.thread.y][this.thread.x];
