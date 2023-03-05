@@ -309,11 +309,11 @@ function initPage2() {
                 return 1;
             } else if (params.sceneMode === 2) {
                 let k = Math.ceil(params.sim_2_0 / params.cellSizeW * 12);
-		if(j*params.cellSizeW >= params.sim_2_2 && j*params.cellSizeW <= params.sim_2_2 + k*params.cellSizeW) {
-                    if(params.sim_2_1/2>=Math.abs(i-params.cellNumberH/2)*params.cellSizeH) {
+		        if(j*params.cellSizeW >= params.sim_2_2 && j*params.cellSizeW <= params.sim_2_2 + k*params.cellSizeW) {
+                    if(Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH)<=params.sim_2_1/2) {
                         return 1;
                     }
-                    return Infinity;
+                    return 1000000000000;
                 }
             } else if (params.sceneMode === 3) {
                 let k = Math.ceil(params.sim_3_0 / params.cellSizeW * 12);
@@ -322,7 +322,7 @@ function initPage2() {
                     || Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH+params.sim_3_2/2)<=params.sim_3_1/2) {
                             return 1;
                         }
-                    return Infinity;
+                    return 1000000000000;
                 }
             } else if (params.sceneMode === 4) {
                 if(((i-params.cellNumberH/2)*params.cellSizeH)**2+((j-params.cellNumberW/4)*params.cellSizeW)**2 <= params.sim_4_1**2) {
@@ -476,16 +476,16 @@ function initPage2() {
         
             if(mode===0) {
                 let i = Math.sqrt(ruc**2+cuc**2)*intensity**2;
-                let r = (nc-1)*0.08*intensity;
-                let g = (nc-1)*0.16*intensity;
-                let b = (nc-1)*0.65*intensity;
+                let r = nc===-Infinity ? 1 : (nc-1)*0.08*intensity;
+                let g = nc===Infinity ? 1 : (nc-1)*0.16*intensity;
+                let b = nc===Infinity ? 1 : (nc-1)*0.65*intensity;
                 this.color(i+r,i+g,i+b);
             } else if(mode===1) {
                 let i = Math.sqrt(ruc**2+cuc**2)*intensity**2;
                 this.color(i,i,i);
                 //TODO time control like in scalar wave equation thingy
             } else if(mode===2) {
-                this.color((nc-1)*intensity,(nc-1)*intensity,(nc-1)*intensity);
+                nc==Infinity ? this.color(1,1,1) : this.color((nc-1)*intensity,(nc-1)*intensity,(nc-1)*intensity);
             } else if(mode===3) {
                 this.color(ruc*intensity+.5,ruc*intensity+.5,ruc*intensity+.5);
             } else if(mode===4) {
