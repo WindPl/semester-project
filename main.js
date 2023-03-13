@@ -313,7 +313,7 @@ function initPage2() {
                     if(Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH)<=params.sim_2_1/2) {
                         return 1;
                     }
-                    return 1000000000000;
+                    return 3.402823466E+38;
                 }
             } else if (params.sceneMode === 3) {
                 let k = Math.ceil(params.sim_3_0 / params.cellSizeW * 12);
@@ -322,7 +322,7 @@ function initPage2() {
                     || Math.abs(i*params.cellSizeH-params.cellNumberH/2*params.cellSizeH+params.sim_3_2/2)<=params.sim_3_1/2) {
                             return 1;
                         }
-                    return 1000000000000;
+                    return 3.402823466E+38;
                 }
             } else if (params.sceneMode === 4) {
                 if(((i-params.cellNumberH/2)*params.cellSizeH)**2+((j-params.cellNumberW/4)*params.cellSizeW)**2 <= params.sim_4_1**2) {
