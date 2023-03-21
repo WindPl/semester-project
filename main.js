@@ -331,7 +331,7 @@ function initPage2() {
             } else if (params.sceneMode === 5) {
                 if(
                     (i*params.cellSizeH-params.sim_5_1-params.sim_5_5)**2 + (j*params.cellSizeW-params.cellNumberW/2*params.cellSizeW-params.sim_5_2)**2 <= params.sim_5_1**2
-                &&  (params.sim_5_1-i*params.cellSizeH)>=params.sim_5_4
+                &&  (params.sim_5_1-i*params.cellSizeH+params.sim_5_5)>=params.sim_5_4
                 ) {
                     return params.sim_5_3;
                 }
